@@ -1,4 +1,5 @@
 import { Dungine } from "./dungine.js";
+import { DungineCamera } from "./dungineCamera.js";
 
 export class DungineCanvas {
     dungine: Dungine
@@ -7,6 +8,7 @@ export class DungineCanvas {
     width: number
     height: number
     drawFunctions: ((dungineCanvas: DungineCanvas) => void)[]
+    camera: DungineCamera
 
     constructor(dungine: Dungine, canvas?: HTMLCanvasElement) {
         this.dungine = dungine;
@@ -16,6 +18,8 @@ export class DungineCanvas {
         this.ctx = this.canvas.getContext("2d");
 
         this.drawFunctions = [];
+
+        this.camera = new DungineCamera(this);
         
         let updateCanvasSize = () => {
             this.canvas.width = innerWidth;
@@ -27,13 +31,19 @@ export class DungineCanvas {
         updateCanvasSize();
         window.addEventListener("resize", () => {updateCanvasSize()});
 
-        this.draw();
+        requestAnimationFrame(() => this.draw());
     }
 
     draw() {
+        this.ctx.resetTransform();
+        this.ctx.fillStyle = "#000"
+        this.ctx.fillRect(0, 0, this.width, this.height);
+        this.camera.doTransform();
+
         for (const drawFunc of this.drawFunctions) {
             drawFunc(this);
         }
-        requestAnimationFrame(this.draw);
+
+        requestAnimationFrame(() => this.draw());
     }
 }
