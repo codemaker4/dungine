@@ -13,6 +13,10 @@ export class Dungine {
 
         this.currentRoom.setCamGoal(this.canvas.camera)
 
-        this.canvas.drawFunctions.push((dungineCanvas) => this.currentRoom.draw(dungineCanvas))
+        this.canvas.drawFunctions.push((dungineCanvas) => this.draw(dungineCanvas))
+    }
+
+    draw(dungineCanvas: DungineCanvas) {
+        this.currentRoom.draw(dungineCanvas);
     }
 }
