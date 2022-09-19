@@ -1,8 +1,8 @@
-import { Dungine } from "./dungine.js";
-import { DungineCamera } from "./dungineCamera.js";
-import { DungineCanvas } from "./dungineCanvas.js";
-import { DungineEntity } from "./dungineEntity.js";
-import { Vec2d } from "./vec2d.js";
+import { Dungine } from "../dungineLib/dungine.js";
+import { DungineCamera } from "../dungineLib/dungineCamera.js";
+import { DungineCanvas } from "../dungineLib/dungineCanvas.js";
+import { DungineEntity } from "../dungineLib/dungineEntity.js";
+import { Vec2d } from "../dungineLib/vec2d.js";
 
 export class DungineRoom {
     dungine: Dungine

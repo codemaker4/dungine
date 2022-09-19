@@ -1,5 +1,5 @@
-import { Dungine } from "./dungine.js";
-import { DungineCamera } from "./dungineCamera.js";
+import { Dungine } from "../dungineLib/dungine.js";
+import { DungineCamera } from "../dungineLib/dungineCamera.js";
 
 export class DungineCanvas {
     dungine: Dungine

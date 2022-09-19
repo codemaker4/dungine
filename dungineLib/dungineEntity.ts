@@ -1,7 +1,7 @@
-import { Dungine } from "./dungine.js";
-import { DungineCanvas } from "./dungineCanvas.js";
-import { DungineRoom } from "./dungineRoom.js";
-import { Vec2d } from "./vec2d.js";
+import { Dungine } from "../dungineLib/dungine.js";
+import { DungineCanvas } from "../dungineLib/dungineCanvas.js";
+import { DungineRoom } from "../dungineLib/dungineRoom.js";
+import { Vec2d } from "../dungineLib/vec2d.js";
 
 export abstract class DungineEntity {
     dungine: Dungine;
