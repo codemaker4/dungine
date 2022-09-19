@@ -16,7 +16,3 @@ export class Dungine {
         this.canvas.drawFunctions.push((dungineCanvas) => this.dungineRoom.draw(dungineCanvas))
     }
 }
-
-window.addEventListener("load", () => {
-    let dungine = new Dungine();
-})
