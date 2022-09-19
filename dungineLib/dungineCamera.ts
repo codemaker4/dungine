@@ -15,11 +15,12 @@ export class DungineCamera {
         this.endPos = this.startPos.copy();
         this.startTime = 0;
         this.endTime = 1;
-        this.defaultmoveDuration = 1000;
+        this.defaultmoveDuration = 500;
     }
 
     get pos(): Vec2d {
         let fac = Math.min(Math.max((Date.now()-this.startTime)/(this.endTime-this.startTime),0),1);
+        fac = Math.sin(fac*Math.PI - Math.PI/2)/2 + 0.5;        
         return this.startPos.copy().add(
             this.endPos.copy().sub(this.startPos).mult(fac)
         )

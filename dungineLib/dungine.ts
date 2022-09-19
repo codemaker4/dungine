@@ -4,15 +4,15 @@ import { Vec2d } from "../dungineLib/vec2d.js";
 
 export class Dungine {
     canvas: DungineCanvas
-    dungineRoom: DungineRoom
+    currentRoom: DungineRoom
 
     constructor(canvas?: HTMLCanvasElement) {
         this.canvas = new DungineCanvas(this, canvas);
 
-        this.dungineRoom = new DungineRoom(this, new Vec2d(500,500));
+        this.currentRoom = new DungineRoom(this, new Vec2d(500,500));
 
-        this.dungineRoom.setCamGoal(this.canvas.camera)
+        this.currentRoom.setCamGoal(this.canvas.camera)
 
-        this.canvas.drawFunctions.push((dungineCanvas) => this.dungineRoom.draw(dungineCanvas))
+        this.canvas.drawFunctions.push((dungineCanvas) => this.currentRoom.draw(dungineCanvas))
     }
 }
