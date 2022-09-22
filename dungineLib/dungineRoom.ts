@@ -19,12 +19,18 @@ export class DungineRoom {
         dungineCamera.setGoalPos(this.size.copy().div(2));
     }
 
-    draw(dungineCanvas: DungineCanvas) {
+    tick(dt: number) {
+        for (const entity of this.entities) {
+            entity.tick(dt);
+        }
+    }
+
+    draw(dungineCanvas: DungineCanvas, timeSinceLastTick) {
         let ctx = dungineCanvas.ctx;
         ctx.fillStyle = "#ddd";
         ctx.fillRect(0,0,this.size.x,this.size.y);
         for (const entity of this.entities) {
-            entity.draw(dungineCanvas);
+            entity.draw(dungineCanvas, timeSinceLastTick);
         }
     }
 }
