@@ -3,7 +3,7 @@ import { DungineFunctionList } from "./dungineFunctionList";
 export class DungineControls {
     onkeydown: DungineFunctionList<(key: string, heldKeys: Set<string>) => void>
     onkeyup: DungineFunctionList<(key: string, heldKeys: Set<string>) => void>
-    onkeyheldtick: DungineFunctionList<(heldKeys: Set<string>) => void>
+    onkeyheldtick: DungineFunctionList<(heldKeys: Set<string>, dt: number) => void>
     heldKeys: Set<string>
 
     constructor() {
@@ -21,7 +21,7 @@ export class DungineControls {
         });
     }
 
-    tick() {
-        this.onkeyheldtick.excecute([this.heldKeys]);
+    tick(dt) {
+        this.onkeyheldtick.excecute([this.heldKeys, dt]);
     }
 }
