@@ -1,4 +1,4 @@
-import { DungineFunctionList } from "./dungineFunctionList";
+import { DungineFunctionList } from "./dungineFunctionList.js";
 
 export class DungineControls {
     onkeydown: DungineFunctionList<(key: string, heldKeys: Set<string>) => void>
@@ -7,6 +7,9 @@ export class DungineControls {
     heldKeys: Set<string>
 
     constructor() {
+        this.onkeydown = new DungineFunctionList();
+        this.onkeyup = new DungineFunctionList();
+        this.onkeyheldtick = new DungineFunctionList();
         this.heldKeys = new Set();
 
         window.addEventListener("keydown", (e) => {
