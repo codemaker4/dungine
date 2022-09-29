@@ -12,7 +12,7 @@ export class DungineFunctionList <functionType extends Function> {
             let i = this.functionList.findIndex((oldFunc) => { // index of the functionList array where...
                 return oldFunc.name == beforeName              // this new function needs to be after it.
             });
-            if (i == -1) throw `The function with name ${name} could not be found.`;
+            if (i == -1) throw `The function with name ${beforeName} could not be found.`;
             return i;
         }));
 
