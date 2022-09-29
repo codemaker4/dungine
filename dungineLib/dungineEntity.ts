@@ -20,15 +20,27 @@ export abstract class DungineEntity {
     }
 
     tick(dt: number) {
-        this.pos.add(this.vel.copy().mult(dt))
+        this.pos.add(this.vel.copy().mult(dt));
+        if (this.pos.x < this.radius) {
+            this.pos.x = this.radius;
+            this.vel.x = 0;
+        } else if (this.pos.x > this.room.size.x-this.radius) {
+            this.pos.x = this.room.size.x-this.radius;
+            this.vel.x = 0;
+        }
+        if (this.pos.y < this.radius) {
+            this.pos.y = this.radius;
+            this.vel.y = 0;
+        } else if (this.pos.y > this.room.size.y-this.radius) {
+            this.pos.y = this.room.size.y-this.radius;
+            this.vel.y = 0;
+        }
     }
     
     draw(dungineCanvas: DungineCanvas, timeSinceLastTick) {
         let currentPos = this.pos.copy().add(this.vel.copy().mult(timeSinceLastTick));
         let ctx = dungineCanvas.ctx;
         ctx.fillStyle = "#f00";
-        ctx.beginPath();
-        ctx.arc(currentPos.x, currentPos.y, this.radius, 0, Math.PI*2);
-        ctx.fill();
+        ctx.fillRect(currentPos.x-this.radius, currentPos.y-this.radius, this.radius*2, this.radius*2);
     }
 }
