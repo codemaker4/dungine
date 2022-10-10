@@ -2,7 +2,6 @@ import { DungineCanvas } from "../dungineLib/dungineCanvas.js";
 import { DungineRoom } from "../dungineLib/dungineRoom.js";
 import { Vec2d } from "../dungineLib/vec2d.js";
 import { DungineControls } from "./dungineControls.js";
-import { EventManager } from "./eventManager.js";
 import { FunctionList } from "./functionList.js";
 
 export class Dungine {
@@ -12,12 +11,9 @@ export class Dungine {
     lastTickTime: number
     controls: DungineControls
     tickInterval: number
-    eventManager: EventManager
 
     constructor(canvas?: HTMLCanvasElement) {
         this.canvas = new DungineCanvas(this, canvas);
-
-        this.eventManager = new EventManager();
 
         this.currentRoom = new DungineRoom(this, new Vec2d(500,500));
         this.currentRoom.setCamGoal(this.canvas.camera);
