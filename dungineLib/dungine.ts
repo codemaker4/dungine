@@ -12,9 +12,12 @@ export class Dungine {
     lastTickTime: number
     controls: DungineControls
     tickInterval: number
+    eventManager: EventManager
 
     constructor(canvas?: HTMLCanvasElement) {
         this.canvas = new DungineCanvas(this, canvas);
+
+        this.eventManager = new EventManager();
 
         this.currentRoom = new DungineRoom(this, new Vec2d(500,500));
         this.currentRoom.setCamGoal(this.canvas.camera);
