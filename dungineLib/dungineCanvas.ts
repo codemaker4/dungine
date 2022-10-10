@@ -1,6 +1,6 @@
 import { Dungine } from "../dungineLib/dungine.js";
 import { DungineCamera } from "../dungineLib/dungineCamera.js";
-import { DungineFunctionList } from "./dungineFunctionList.js";
+import { FunctionList } from "./dungineFunctionList.js";
 
 export class DungineCanvas {
     dungine: Dungine
@@ -8,7 +8,7 @@ export class DungineCanvas {
     ctx: CanvasRenderingContext2D
     width: number
     height: number
-    drawFunctions: DungineFunctionList<(dungineCanvas: DungineCanvas, timeSinceLastTick: number) => void>
+    drawFunctions: FunctionList<(dungineCanvas: DungineCanvas, timeSinceLastTick: number) => void>
     camera: DungineCamera
 
     constructor(dungine: Dungine, canvas?: HTMLCanvasElement) {
@@ -18,7 +18,7 @@ export class DungineCanvas {
         else this.canvas = <HTMLCanvasElement> document.getElementById("dungineCanvas");
         this.ctx = this.canvas.getContext("2d");
 
-        this.drawFunctions = new DungineFunctionList();
+        this.drawFunctions = new FunctionList();
 
         this.camera = new DungineCamera(this);
         

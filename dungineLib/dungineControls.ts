@@ -1,16 +1,16 @@
-import { DungineFunctionList } from "./dungineFunctionList.js";
+import { FunctionList } from "./dungineFunctionList.js";
 
 export class DungineControls {
-    onkeydown: DungineFunctionList<(e: KeyboardEvent, controls:DungineControls) => void>
-    onkeyup: DungineFunctionList<(e: KeyboardEvent, controls:DungineControls) => void>
-    onkeyheldtick: DungineFunctionList<(dt: number, controls:DungineControls) => void>
+    onkeydown: FunctionList<(e: KeyboardEvent, controls:DungineControls) => void>
+    onkeyup: FunctionList<(e: KeyboardEvent, controls:DungineControls) => void>
+    onkeyheldtick: FunctionList<(dt: number, controls:DungineControls) => void>
     heldKeys: Set<string>
     heldCodes: Set<string>
 
     constructor() {
-        this.onkeydown = new DungineFunctionList();
-        this.onkeyup = new DungineFunctionList();
-        this.onkeyheldtick = new DungineFunctionList();
+        this.onkeydown = new FunctionList();
+        this.onkeyup = new FunctionList();
+        this.onkeyheldtick = new FunctionList();
         this.heldKeys = new Set();
         this.heldCodes = new Set();
 

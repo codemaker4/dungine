@@ -1,4 +1,4 @@
-export class DungineFunctionList <functionType extends Function> {
+export class FunctionList <functionType extends Function> {
     functionList: {name: string, func: functionType}[]
 
     constructor () {

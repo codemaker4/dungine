@@ -2,12 +2,12 @@ import { DungineCanvas } from "../dungineLib/dungineCanvas.js";
 import { DungineRoom } from "../dungineLib/dungineRoom.js";
 import { Vec2d } from "../dungineLib/vec2d.js";
 import { DungineControls } from "./dungineControls.js";
-import { DungineFunctionList } from "./dungineFunctionList.js";
+import { FunctionList } from "./dungineFunctionList.js";
 
 export class Dungine {
     canvas: DungineCanvas
     currentRoom: DungineRoom
-    tickFunctions: DungineFunctionList<(dt: number) => void>
+    tickFunctions: FunctionList<(dt: number) => void>
     lastTickTime: number
     controls: DungineControls
     tickInterval: number
@@ -23,7 +23,7 @@ export class Dungine {
         this.canvas.drawFunctions.add("currentRoom", (dungineCanvas, timeSinceLastTick) => {this.currentRoom.draw(dungineCanvas, timeSinceLastTick)});
 
         this.lastTickTime = Date.now();
-        this.tickFunctions = new DungineFunctionList();
+        this.tickFunctions = new FunctionList();
         this.tickInterval = setInterval(() => {
             let dt = (Date.now() - this.lastTickTime) / 1000;
             this.lastTickTime = Date.now();
