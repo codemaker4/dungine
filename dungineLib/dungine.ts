@@ -2,7 +2,7 @@ import { DungineCanvas } from "../dungineLib/dungineCanvas.js";
 import { DungineRoom } from "../dungineLib/dungineRoom.js";
 import { Vec2d } from "../dungineLib/vec2d.js";
 import { DungineControls } from "./dungineControls.js";
-import { FunctionList } from "./dungineFunctionList.js";
+import { FunctionList } from "./functionList.js";
 
 export class Dungine {
     canvas: DungineCanvas

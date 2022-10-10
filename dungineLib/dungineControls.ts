@@ -1,4 +1,4 @@
-import { FunctionList } from "./dungineFunctionList.js";
+import { FunctionList } from "functionList.js";
 
 export class DungineControls {
     onkeydown: FunctionList<(e: KeyboardEvent, controls:DungineControls) => void>
