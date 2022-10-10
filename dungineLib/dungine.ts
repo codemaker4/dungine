@@ -10,6 +10,7 @@ export class Dungine {
     tickFunctions: DungineFunctionList<(dt: number) => void>
     lastTickTime: number
     controls: DungineControls
+    tickInterval: number
 
     constructor(canvas?: HTMLCanvasElement) {
         this.canvas = new DungineCanvas(this, canvas);
@@ -23,7 +24,7 @@ export class Dungine {
 
         this.lastTickTime = Date.now();
         this.tickFunctions = new DungineFunctionList();
-        setInterval(() => {
+        this.tickInterval = setInterval(() => {
             let dt = (Date.now() - this.lastTickTime) / 1000;
             this.lastTickTime = Date.now();
             this.tickFunctions.excecute([dt]);
