@@ -3,6 +3,7 @@ import { DungineRoom } from "../dungineLib/dungineRoom.js";
 import { Vec2d } from "../dungineLib/vec2d.js";
 import { DungineControls } from "./dungineControls.js";
 import { FunctionList } from "./functionList.js";
+import { TypeManager } from "./typeManager.js";
 
 export class Dungine {
     canvas: DungineCanvas
@@ -11,6 +12,7 @@ export class Dungine {
     lastTickTime: number
     controls: DungineControls
     tickInterval: number
+    entityTypeManager: TypeManager
 
     constructor(canvas?: HTMLCanvasElement) {
         this.canvas = new DungineCanvas(this, canvas);
@@ -33,5 +35,6 @@ export class Dungine {
         this.tickFunctions.add("heldKeys", (dt) => {this.controls.tick(dt)});
         this.tickFunctions.add("currentRoom", (dt) => {this.currentRoom.tick(dt)});
 
+        this.entityTypeManager = new TypeManager();
     }
 }
