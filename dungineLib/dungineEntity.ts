@@ -10,7 +10,6 @@ export abstract class DungineEntity {
     lastTickTime: number
     radius: number
     room: DungineRoom | undefined
-    types: Set<string>
 
     constructor(dungine: Dungine, room: DungineRoom, pos: Vec2d, vel: Vec2d, radius: number) {
         this.dungine = dungine;
@@ -18,19 +17,6 @@ export abstract class DungineEntity {
         this.pos = pos;
         this.vel = vel;
         this.radius = radius;
-        this.types = new Set()
-    }
-
-    isType(type: string) {
-        return this.types.has(this.dungine.entityTypeManager.checkTypeExists(type));
-    }
-
-    addType(type: string) {
-        this.types.add(this.dungine.entityTypeManager.checkTypeExists(type));
-    }
-
-    removeType(type: string) {
-        this.types.delete(this.dungine.entityTypeManager.checkTypeExists(type));
     }
 
     tick(dt: number) {
