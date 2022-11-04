@@ -31,7 +31,9 @@ export class DungineCanvas {
 
         updateCanvasSize();
         window.addEventListener("resize", () => {updateCanvasSize()});
+    }
 
+    start() {
         requestAnimationFrame(() => this.draw());
     }
 

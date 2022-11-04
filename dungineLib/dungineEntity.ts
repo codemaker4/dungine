@@ -10,6 +10,8 @@ export abstract class DungineEntity {
     lastTickTime: number
     radius: number
     room: DungineRoom | undefined
+    behaviours: string[]
+    properties: {[propertyName: string]: any}
 
     constructor(dungine: Dungine, room: DungineRoom, pos: Vec2d, vel: Vec2d, radius: number) {
         this.dungine = dungine;
@@ -17,24 +19,12 @@ export abstract class DungineEntity {
         this.pos = pos;
         this.vel = vel;
         this.radius = radius;
+        this.behaviours = ["movement", "wallCollision"];
+        this.properties = {};
     }
 
-    tick(dt: number) {
-        this.pos.add(this.vel.copy().mult(dt));
-        if (this.pos.x < this.radius) {
-            this.pos.x = this.radius;
-            this.vel.x = 0;
-        } else if (this.pos.x > this.room.size.x-this.radius) {
-            this.pos.x = this.room.size.x-this.radius;
-            this.vel.x = 0;
-        }
-        if (this.pos.y < this.radius) {
-            this.pos.y = this.radius;
-            this.vel.y = 0;
-        } else if (this.pos.y > this.room.size.y-this.radius) {
-            this.pos.y = this.room.size.y-this.radius;
-            this.vel.y = 0;
-        }
+    doBehaviourEvent(eventName: string, args: {[argName: string]: any}) {
+        this.dungine.entityBehaviourManager.doEvent(this, eventName, args);
     }
     
     draw(dungineCanvas: DungineCanvas, timeSinceLastTick) {
