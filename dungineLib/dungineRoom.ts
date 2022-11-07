@@ -21,7 +21,7 @@ export class DungineRoom {
 
     tick(dt: number) {
         for (const entity of this.entities) {
-            entity.doBehaviourEvent("tick", {dt: dt});
+            entity.triggerEvent("tick", {"dt": dt})
         }
     }
 

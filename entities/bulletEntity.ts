@@ -7,6 +7,5 @@ export class BulletEntity extends DungineEntity {
     constructor(dungine: Dungine, room: DungineRoom, pos: Vec2d, vel: Vec2d, radius: number) {
         super(dungine, room, pos, vel, radius);
 
-        this.behaviours = ["movement", "wallDeath"]
     }
 }
