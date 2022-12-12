@@ -28,4 +28,8 @@ export class EventManager <targetType>{
         if (!this.events.has(eventName)) throw `Error triggering event: Event with name ${eventName} doesn't exist.`;
         this.events.get(eventName).excecute([this.target, args])
     }
+
+    destroy() {
+        this.events = new Map();
+    }
 }
