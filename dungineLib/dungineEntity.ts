@@ -14,6 +14,7 @@ export class DungineEntity {
     health: number; // set to infinity if indestructable
 
     type: Type
+    modules: Set<string>
     properties: {[name: string]: any}
 
     constructor(dungine: Dungine, room: DungineRoom, pos: Vec2d, vel: Vec2d, isStatic: boolean, radius: number, health: number, type: Type) {
@@ -25,7 +26,20 @@ export class DungineEntity {
         this.radius = radius;
         this.health = health;
         this.type = type;
+        this.modules = new Set()
         this.properties = {};
+    }
+
+    setDefaultProperty(propertyName: string, value: any) {
+        if (this.properties[propertyName] === undefined) {
+            this.properties[propertyName] = value;
+        }
+    }
+
+    assertProperty(property: any, type: string, errorMSG:string) {
+        if (typeof property !== type) {
+            throw errorMSG;
+        }
     }
 
     init() {

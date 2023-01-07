@@ -13,6 +13,8 @@ window.addEventListener("load", async () => {
         entity.properties.projectileWeaponTriggerKeyCode = "Mouse0";
         entity.properties.projectileWeaponAimTo = "mouse";
         entity.properties.drawCircleColor = "green";
+        entity.properties.projectileWeaponProjectileDamage = 5;
+        entity.properties.projectileWeaponProjectileRadius = 5;
     });
 
     dungine.typeManager.addType("enemy", false, 100, 20, ["drawCircle", "healthBar", "projectileWeapon", "AiMovement"], (entity) => {
@@ -20,6 +22,8 @@ window.addEventListener("load", async () => {
         entity.properties.projectileWeaponAimTo = ["player"];
         entity.properties.AiMovementGoals = [{type: "player", minDist: 100, maxDist: 200, weight: 1}];
         entity.properties.AiMoveSpeed = 10;
+        entity.properties.projectileWeaponProjectileDamage = 2;
+        entity.properties.projectileWeaponProjectileRadius = 2;
     });
 
     dungine.currentRoom.summon("player", new Vec2d(100, 100), new Vec2d(0, 0), {});

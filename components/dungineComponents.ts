@@ -4,10 +4,8 @@ import { Vec2d } from "../dungineLib/vec2d.js";
 
 export let AiMovement = <Component>{
     init(entity, dt, args) {
-        if (!entity.properties.AiMovementGoals?.length) throw "Error in AiMovement component: properties.AiMovementGoals is not specified. Example: [{'type':'player', minDist: 100, maxDist 150, weight: 1}, ...]"
-        if (typeof entity.properties.AiMoveSpeed !== "number") {
-            throw `Error initialising AiMovement for ${entity.type.name} Entity: Entity.properties.AiMoveSpeed is not defined or not a number. Be sure to initialise this value in the entity type's constructor function.`;
-        }
+        entity.assertProperty(entity.properties.AiMovementGoals?.length, "number", `Error initialising AiMovement for ${entity.type.name}: entity.properties.AiMovementGoals is not specified. Example: [{'type':'player', minDist: 100, maxDist 150, weight: 1}, ...]`)
+        entity.assertProperty(entity.properties.AiMoveSpeed, "number", `Error initialising AiMovement for ${entity.type.name}: entity.properties.AiMoveSpeed is not defined or not a number. Be sure to initialise this value in the entity type's constructor function.`)
     },
     tick(entity, dt, args) {
         let goals = <{type: string, minDist: number, maxDist: number, weight: number}[]> entity.properties.AiMovementGoals;
@@ -42,9 +40,12 @@ export let AiMovement = <Component>{
 }
 
 export let drawCircle = <Component>{
+    init(entity, dt, args) {
+        entity.setDefaultProperty("drawCircleColor", "black")
+    },
     draw(entity, dt, args) {
         let ctx = args.canvas.ctx;
-        ctx.fillStyle = entity.properties.drawCircleColor || "black";
+        ctx.fillStyle = entity.properties.drawCircleColor;
         ctx.beginPath();
         ctx.arc(entity.pos.x, entity.pos.y, entity.radius, 0, Math.PI*2);
         ctx.fill();
@@ -53,27 +54,29 @@ export let drawCircle = <Component>{
 
 export let healthBar = <Component>{
     init(entity, dt, args) {
-        if (entity.properties.healtBarMax === undefined) {
-            entity.properties.healtBarMax = entity.health;
-        }
+        entity.setDefaultProperty("healthBarMax", entity.health);
+        entity.setDefaultProperty("healthBarSize", undefined);
+        entity.setDefaultProperty("healthBarWidth", 10);
+        entity.setDefaultProperty("healthBarFrontColor", "red");
+        entity.setDefaultProperty("healthBarBackColor", "black");
     },
     draw(entity, dt, args) {
         let radius = entity.properties.healthBarSize/2 || entity.radius;
-        let width = entity.properties.healthBarWidth || 10;
+        let width = entity.properties.healthBarWidth;
         let ctx = args.canvas.ctx;
         ctx.save();
             ctx.lineCap = "round"
             ctx.lineWidth = width;
-            ctx.strokeStyle = "black";
+            ctx.strokeStyle = entity.properties.healthBarBackColor;
             ctx.beginPath();
             ctx.moveTo(entity.pos.x - radius, entity.pos.y + entity.radius + width);
             ctx.lineTo(entity.pos.x + radius, entity.pos.y + entity.radius + width);
             ctx.stroke();
             ctx.lineWidth = width*0.5;
-            ctx.strokeStyle = "red";
+            ctx.strokeStyle = entity.properties.healthBarFrontColor;
             ctx.beginPath();
             ctx.moveTo(entity.pos.x - radius, entity.pos.y + entity.radius + width);
-            ctx.lineTo(entity.pos.x - radius + radius*2*(entity.health/entity.properties.healtBarMax), entity.pos.y + entity.radius + width);
+            ctx.lineTo(entity.pos.x - radius + radius*2*(entity.health/entity.properties.healthBarMax), entity.pos.y + entity.radius + width);
             ctx.stroke();
         ctx.restore();
     },
@@ -81,9 +84,7 @@ export let healthBar = <Component>{
 
 export let playerMovement = <Component>{
     init(entity, dt, args) {
-        if (typeof entity.properties.playerMoveSpeed !== "number") {
-            throw `Error initialising playerMovement for ${entity.type.name} Entity: Entity.properties.playerMoveSpeed is not defined or not a number. Be sure to initialise this value in the entity type's constructor function.`;
-        }
+        entity.assertProperty(entity.properties.playerMoveSpeed, "number", `Error initialising playerMovement for ${entity.type.name} Entity: entity.properties.playerMoveSpeed is not defined or not a number. Be sure to initialise this value in the entity type's constructor function.`)
     },
     tick(entity, dt, args) {
         const MOVE_SPEED = entity.properties.playerMoveSpeed;
@@ -99,6 +100,11 @@ export let playerMovement = <Component>{
 export let projectileWeapon = <Component> {
     import(dungine) {
         dungine.typeManager.componentManager.addComponent("projectileWeaponProjectile", <Component> {
+            init(entity, dt, args) {
+                entity.assertProperty(entity.properties.damage, "number", `Error in projectileWeaponProjectile for ${entity.type.name}: entity.properties.damage is not defined.`);
+                entity.assertProperty(entity.radius, "number", `Error in projectileWeaponProjectile for ${entity.type.name}: entity.radius is not defined.`);
+                entity.assertProperty(entity.properties.owner, "object", `Error in projectileWeaponProjectile for ${entity.type.name}: entity.properties.owner is not defined.`);
+            },
             roomWallCollission(entity, dt, args) {
                 entity.health = -Infinity;
             },
@@ -111,16 +117,17 @@ export let projectileWeapon = <Component> {
         });
         dungine.typeManager.addType("projectileWeaponProjectile", false, Infinity, 5, ["projectileWeaponProjectile", "drawCircle"], (entity, args) => {
             entity.properties.damage = args.damage;
+            entity.radius = args.radius
             entity.properties.owner = args.owner;
         });
     },
     init(entity, dt, args) {
         entity.properties.projectileWeaponTrigger = true;
         entity.properties.projectileWeaponCooldownTimer = 0;
-        entity.properties.projectileWeaponCooldown = 0.2;
-        if (!entity.properties.projectileWeaponAim) {
-            entity.properties.projectileWeaponAim = new Vec2d(1,0).rotate(Math.random()*Math.PI*2);
-        }
+        entity.setDefaultProperty("projectileWeaponCooldown", 0.2);
+        entity.setDefaultProperty("projectileWeaponAim", new Vec2d(1,0).rotate(Math.random()*Math.PI*2));
+        entity.assertProperty(entity.properties.projectileWeaponProjectileDamage, "number", `Error in projectileWeapon for ${entity.type.name}: entity.properties.projectileWeaponProjectileDamage is not defined or not a number.`);
+        entity.assertProperty(entity.properties.projectileWeaponProjectileRadius, "number", `Error in projectileWeapon for ${entity.type.name}: entity.properties.projectileWeaponProjectileRadius is not defined or not a number.`);
     },
     tick(entity, dt, args) {
         const props = entity.properties;
@@ -156,7 +163,11 @@ export let projectileWeapon = <Component> {
 
         if (props.projectileWeaponTrigger && entity.properties.projectileWeaponCooldownTimer < 0) {
             props.projectileWeaponCooldownTimer = props.projectileWeaponCooldown;
-            entity.room.summon("projectileWeaponProjectile", entity.pos.copy(), props.projectileWeaponAim.copy().mult(200), {damage: 5, owner: entity});
+            entity.room.summon("projectileWeaponProjectile", entity.pos.copy(), props.projectileWeaponAim.copy().mult(200), {
+                damage: entity.properties.projectileWeaponProjectileDamage,
+                radius: entity.properties.projectileWeaponProjectileRadius,
+                owner: entity
+            });
         }
     },
 }
