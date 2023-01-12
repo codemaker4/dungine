@@ -32,7 +32,6 @@ export let AiMovement = <Component>{
             }
         }
 
-        entity.vel.mult(0.9);
         if (fullGoalDirection.mag() > 0) {
             entity.vel.add(fullGoalDirection.setMag(entity.properties.AiMoveSpeed));
         }
@@ -49,6 +48,15 @@ export let drawCircle = <Component>{
         ctx.beginPath();
         ctx.arc(entity.pos.x, entity.pos.y, entity.radius, 0, Math.PI*2);
         ctx.fill();
+    },
+}
+
+export let friction = <Component>{
+    init(entity, dt, args) {
+        entity.setDefaultProperty("frictionFactor", 0.9);
+    },
+    tick(entity, dt, args) {
+        entity.vel.mult(entity.properties.frictionFactor);
     },
 }
 
@@ -89,7 +97,6 @@ export let playerMovement = <Component>{
     tick(entity, dt, args) {
         const MOVE_SPEED = entity.properties.playerMoveSpeed;
     
-        entity.vel.mult(0.9);
         if (entity.dungine.controls.heldCodes.has("KeyA")) entity.vel.addXY(-MOVE_SPEED,0);
         if (entity.dungine.controls.heldCodes.has("KeyD")) entity.vel.addXY(MOVE_SPEED,0);
         if (entity.dungine.controls.heldCodes.has("KeyW")) entity.vel.addXY(0,-MOVE_SPEED);
@@ -168,6 +175,29 @@ export let projectileWeapon = <Component> {
                 radius: entity.properties.projectileWeaponProjectileRadius,
                 owner: entity
             });
+        }
+    },
+}
+
+export let push = <Component> {
+    init(entity, dt, args) {
+        entity.setDefaultProperty("pushWeight", 1);
+    },
+    collission(entity, dt, args) {
+        if (!args.other.type.componentNameSet.has("push")) return;
+        let moveDist = args.edgeDist;
+        let relVel = args.other.vel.copy().sub(entity.vel);
+        let approachAmount = -args.relPos.copy().normalize().dot(relVel);
+        let repelVec = args.relPos.copy().setMag(approachAmount);
+        console.log(approachAmount, relVel.mag());
+        let weightpart = args.other.properties.pushWeight / (args.other.properties.pushWeight + entity.properties.pushWeight); // the % (0 to 1) of weight of the collision that is from this entity.
+        if (args.other.isStatic) {
+            weightpart = 1;
+        }
+        moveDist *= 1-weightpart;
+        entity.pos.add(args.relPos.copy().setMag(moveDist));
+        if (approachAmount > 0) {
+            entity.vel.add(repelVec.mult(-weightpart));
         }
     },
 }

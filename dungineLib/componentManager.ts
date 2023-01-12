@@ -46,7 +46,7 @@ export type Component = {
     init?: EventHandler<{}>
     tick?: EventHandler<{}>
     draw?: EventHandler<{canvas: DungineCanvas}>
-    collission?: EventHandler<{other: DungineEntity}>
+    collission?: EventHandler<{other: DungineEntity, relPos: Vec2d, centerDist: number, edgeDist: number}>
     roomWallCollission?: EventHandler<{vel: Vec2d}>
 }
 

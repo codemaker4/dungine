@@ -8,7 +8,7 @@ window.addEventListener("load", async () => {
         "../components/dungineComponents.js",
     ]);
 
-    dungine.typeManager.addType("player", false, 100, 20, ["drawCircle", "playerMovement", "projectileWeapon", "healthBar"], (entity)=>{
+    dungine.typeManager.addType("player", false, 100, 20, ["drawCircle", "playerMovement", "projectileWeapon", "healthBar", "push", "friction"], (entity)=>{
         entity.properties.playerMoveSpeed = 50;
         entity.properties.projectileWeaponTriggerKeyCode = "Mouse0";
         entity.properties.projectileWeaponAimTo = "mouse";
@@ -17,10 +17,10 @@ window.addEventListener("load", async () => {
         entity.properties.projectileWeaponProjectileRadius = 5;
     });
 
-    dungine.typeManager.addType("enemy", false, 100, 20, ["drawCircle", "healthBar", "projectileWeapon", "AiMovement"], (entity) => {
+    dungine.typeManager.addType("enemy", false, 100, 20, ["drawCircle", "healthBar"/*, "projectileWeapon", "AiMovement"*/, "push", "friction"], (entity) => {
         entity.properties.drawCircleColor = "red";
         entity.properties.projectileWeaponAimTo = ["player"];
-        entity.properties.AiMovementGoals = [{type: "player", minDist: 100, maxDist: 200, weight: 1}];
+        entity.properties.AiMovementGoals = [{type: "player", minDist: 0, maxDist: 0, weight: 1}];
         entity.properties.AiMoveSpeed = 10;
         entity.properties.projectileWeaponProjectileDamage = 2;
         entity.properties.projectileWeaponProjectileRadius = 2;

@@ -30,9 +30,12 @@ export class DungineRoom {
 
         for (let i = 0; i < this.entities.length; i++) {
             for (let j = i + 1; j < this.entities.length; j++) {
-                if (this.entities[i].pos.dist(this.entities[j].pos) < this.entities[i].radius + this.entities[j].radius) {
-                    this.entities[i].collision(dt, this.entities[j]);
-                    this.entities[j].collision(dt, this.entities[i]);
+                let relPos = this.entities[j].pos.copy().sub(this.entities[i].pos);
+                let centerDist = relPos.mag();
+                let edgeDist = centerDist - (this.entities[i].radius + this.entities[j].radius)
+                if (edgeDist < 0) {
+                    this.entities[i].collision(dt, this.entities[j], relPos.copy(), centerDist, edgeDist);
+                    this.entities[j].collision(dt, this.entities[i], relPos.mult(-1), centerDist, edgeDist);
                 }
             }
         }

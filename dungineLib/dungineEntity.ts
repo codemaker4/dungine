@@ -14,7 +14,6 @@ export class DungineEntity {
     health: number; // set to infinity if indestructable
 
     type: Type
-    modules: Set<string>
     properties: {[name: string]: any}
 
     constructor(dungine: Dungine, room: DungineRoom, pos: Vec2d, vel: Vec2d, isStatic: boolean, radius: number, health: number, type: Type) {
@@ -26,7 +25,6 @@ export class DungineEntity {
         this.radius = radius;
         this.health = health;
         this.type = type;
-        this.modules = new Set()
         this.properties = {};
     }
 
@@ -71,9 +69,9 @@ export class DungineEntity {
         }
     }
 
-    collision(dt: number, other: DungineEntity) {
+    collision(dt: number, other: DungineEntity, relPos: Vec2d, centerDist: number, edgeDist: number) {
         for (const collisionFunc of this.type.componentSet.collission) {
-            collisionFunc(this, dt, {other: other});
+            collisionFunc(this, dt, {other: other, relPos: relPos, centerDist: centerDist, edgeDist: edgeDist});
         }
     }
 

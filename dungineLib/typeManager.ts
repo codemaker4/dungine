@@ -38,6 +38,7 @@ export class Type {
     health: number
     radius: number
     componentSet: ComponentSet
+    componentNameSet: Set<string>
     entityConstructor: (entity: DungineEntity, args: {[argName: string]: any}) => void
 
     constructor(typeManager: TypeManager, name: string, isStatic: boolean, health: number, radius: number, components: string[], entityConstructor: (entity: DungineEntity, args: {[argName: string]: any}) => void) {
@@ -47,7 +48,10 @@ export class Type {
         this.health = health;
         this.radius = radius;
         this.componentSet = new ComponentSet();
+        this.componentNameSet = new Set();
         for (const componentName of components) {
+            if (this.componentNameSet.has(componentName)) return;
+            this.componentNameSet.add(componentName);
             this.componentSet.addComponent(this.typeManager.componentManager.getComponent(componentName))
         }
         this.entityConstructor = entityConstructor;
