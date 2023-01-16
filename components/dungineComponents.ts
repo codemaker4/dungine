@@ -111,13 +111,15 @@ export let projectileWeapon = <Component> {
                 entity.assertProperty(entity.properties.damage, "number", `Error in projectileWeaponProjectile for ${entity.type.name}: entity.properties.damage is not defined.`);
                 entity.assertProperty(entity.radius, "number", `Error in projectileWeaponProjectile for ${entity.type.name}: entity.radius is not defined.`);
                 entity.assertProperty(entity.properties.owner, "object", `Error in projectileWeaponProjectile for ${entity.type.name}: entity.properties.owner is not defined.`);
+                entity.assertProperty(entity.properties.damageWhitelist, "object", `Error in projectileWeaponProjectile for ${entity.type.name}: entity.properties.damageWhitelist is not defined.`)
             },
             roomWallCollission(entity, dt, args) {
                 entity.health = -Infinity;
             },
             collission(entity, dt, args) {
                 let other = args.other;
-                if (other == entity.properties.owner || other.type.name == entity.type.name) return;
+                if (other == entity.properties.owner || other.type.name == "projectileWeaponProjectile") return;
+                if (entity.properties.damageWhitelist?.length && !entity.properties.damageWhitelist.includes(other.type.name)) return
                 other.health -= entity.properties.damage;
                 entity.health = -Infinity;
             },
@@ -127,6 +129,7 @@ export let projectileWeapon = <Component> {
             entity.radius = args.radius
             entity.properties.owner = args.owner;
             entity.properties.drawCircleColor = args.color;
+            entity.properties.damageWhitelist = args.damageWhitelist
         });
     },
     init(entity, dt, args) {
@@ -137,6 +140,7 @@ export let projectileWeapon = <Component> {
         entity.assertProperty(entity.properties.projectileWeaponProjectileDamage, "number", `Error in projectileWeapon for ${entity.type.name}: entity.properties.projectileWeaponProjectileDamage is not defined or not a number.`);
         entity.assertProperty(entity.properties.projectileWeaponProjectileRadius, "number", `Error in projectileWeapon for ${entity.type.name}: entity.properties.projectileWeaponProjectileRadius is not defined or not a number.`);
         entity.setDefaultProperty("projectileWeaponProjectileColor", "black");
+        entity.setDefaultProperty("projectileWeaponDamageWhitelist", []);
     },
     tick(entity, dt, args) {
         const props = entity.properties;
@@ -177,6 +181,7 @@ export let projectileWeapon = <Component> {
                 radius: entity.properties.projectileWeaponProjectileRadius,
                 owner: entity,
                 color: entity.properties.projectileWeaponProjectileColor,
+                damageWhitelist: entity.properties.projectileWeaponDamageWhitelist
             });
         }
     },
