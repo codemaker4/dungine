@@ -12,6 +12,7 @@ export class DungineEntity {
     room: DungineRoom
     radius: number
     health: number; // set to infinity if indestructable
+    age: number;
 
     type: Type
     properties: {[name: string]: any}
@@ -24,6 +25,7 @@ export class DungineEntity {
         this.isStatic = isStatic;
         this.radius = radius;
         this.health = health;
+        this.age = 0;
         this.type = type;
         this.properties = {};
     }
@@ -47,6 +49,8 @@ export class DungineEntity {
     }
 
     tick(dt: number) {
+
+        this.age += dt;
 
         if (this.isStatic) {
             this.vel.setXY(0,0);
