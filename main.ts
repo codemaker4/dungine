@@ -30,58 +30,5 @@ window.addEventListener("load", async () => {
 
     dungine.currentRoom.summon("enemy", new Vec2d(300, 300), new Vec2d(0, 0), {});
 
-    setInterval(() => {
-        dungine.currentRoom.particleManager.createParticlesCircle(
-            Vec2d.randBox(dungine.currentRoom.size.x, dungine.currentRoom.size.y),
-            50,
-            0,
-            10,
-            100,
-            {
-                red: 255,
-                green: 0,
-                blue: 0,
-                opacity: 1,
-                size: 10,
-                fadeStart: 1,
-                fadeEnd: 2,
-            }
-        )
-        dungine.currentRoom.particleManager.createParticlesSquare(
-            Vec2d.randBox(dungine.currentRoom.size.x, dungine.currentRoom.size.y),
-            10,
-            Math.random()*Math.PI,
-            100,
-            0,
-            100,
-            {
-                red: 0,
-                green: 255,
-                blue: 0,
-                opacity: 1,
-                size: 10,
-                fadeStart: 1,
-                fadeEnd: 2,
-            }
-        )
-        dungine.currentRoom.particleManager.createParticlesLine(
-            Vec2d.randBox(dungine.currentRoom.size.x, dungine.currentRoom.size.y),
-            100,
-            Math.random()*Math.PI,
-            -50,
-            10,
-            100,
-            {
-                red: 0,
-                green: 0,
-                blue: 255,
-                opacity: 1,
-                size: 10,
-                fadeStart: 0,
-                fadeEnd: 1,
-            }
-        )
-    }, 1000)
-
     dungine.start();
 })
