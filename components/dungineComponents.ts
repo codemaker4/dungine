@@ -126,6 +126,7 @@ export let projectileWeapon = <Component> {
             entity.properties.damage = args.damage;
             entity.radius = args.radius
             entity.properties.owner = args.owner;
+            entity.properties.drawCircleColor = args.color;
         });
     },
     init(entity, dt, args) {
@@ -135,6 +136,7 @@ export let projectileWeapon = <Component> {
         entity.setDefaultProperty("projectileWeaponAim", new Vec2d(1,0).rotate(Math.random()*Math.PI*2));
         entity.assertProperty(entity.properties.projectileWeaponProjectileDamage, "number", `Error in projectileWeapon for ${entity.type.name}: entity.properties.projectileWeaponProjectileDamage is not defined or not a number.`);
         entity.assertProperty(entity.properties.projectileWeaponProjectileRadius, "number", `Error in projectileWeapon for ${entity.type.name}: entity.properties.projectileWeaponProjectileRadius is not defined or not a number.`);
+        entity.setDefaultProperty("projectileWeaponProjectileColor", "black");
     },
     tick(entity, dt, args) {
         const props = entity.properties;
@@ -173,7 +175,8 @@ export let projectileWeapon = <Component> {
             entity.room.summon("projectileWeaponProjectile", entity.pos.copy(), props.projectileWeaponAim.copy().mult(200), {
                 damage: entity.properties.projectileWeaponProjectileDamage,
                 radius: entity.properties.projectileWeaponProjectileRadius,
-                owner: entity
+                owner: entity,
+                color: entity.properties.projectileWeaponProjectileColor,
             });
         }
     },
