@@ -122,7 +122,7 @@ export let projectileWeapon = <Component> {
                 entity.health = -Infinity;
             },
         });
-        dungine.typeManager.addType("projectileWeaponProjectile", false, Infinity, 5, ["projectileWeaponProjectile", "drawCircle"], (entity, args) => {
+        dungine.typeManager.addType("projectileWeaponProjectile", false, Infinity, 0, ["projectileWeaponProjectile", "drawCircle"], (entity, args) => {
             entity.properties.damage = args.damage;
             entity.radius = args.radius
             entity.properties.owner = args.owner;

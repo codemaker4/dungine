@@ -3,16 +3,19 @@ import { DungineCamera } from "../dungineLib/dungineCamera.js";
 import { DungineCanvas } from "../dungineLib/dungineCanvas.js";
 import { DungineEntity } from "../dungineLib/dungineEntity.js";
 import { Vec2d } from "../dungineLib/vec2d.js";
+import { ParticleManager } from "./dungineParticles.js";
 
 export class DungineRoom {
     dungine: Dungine
     size: Vec2d
     entities: DungineEntity[];
+    particleManager: ParticleManager
 
     constructor(dungine: Dungine, size: Vec2d) {
         this.dungine = dungine
         this.size = size;
         this.entities = [];
+        this.particleManager = new ParticleManager(this);
     }
 
     summon(type: string, pos: Vec2d, vel: Vec2d, args: { [argName: string]: any; }) {
@@ -56,5 +59,7 @@ export class DungineRoom {
         for (const entity of this.entities) {
             entity.draw(dt);
         }
+
+        this.particleManager.draw(dt);
     }
 }
