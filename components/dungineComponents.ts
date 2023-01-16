@@ -53,6 +53,71 @@ export let drawCircle = <Component>{
     },
 }
 
+export let explosion = <Component>{
+    import(dungine) {
+        dungine.typeManager.addType("explosion", true, Infinity, 0, ["explosion"], (entity, args) => {
+            entity.properties.explosionDelay = args.explosionDelay;
+            entity.radius = args.explosionRadius;
+            entity.properties.explosionDamage = args.explosionDamage
+        })
+    },
+    init(entity, dt, args) {
+        entity.setDefaultProperty("explosionDelay", 0);
+    },
+    tick(entity, dt, args) {
+        let timeLeft = (entity.properties.explosionDelay - entity.age);
+
+        if (timeLeft > 0) {
+            entity.room.particleManager.createParticlesCircle(
+                entity.pos,
+                entity.radius,
+                -entity.radius / timeLeft,
+                0,
+                entity.radius/100*Math.PI*2,
+                {
+                    red: 255,
+                    green: 100,
+                    blue: 0,
+                    opacity: 0.5,
+                    size: 10,
+                    fadeStart: timeLeft*0.5,
+                    fadeEnd: timeLeft,
+                }
+            );
+        } else {
+            entity.health = -Infinity;
+            entity.room.particleManager.createParticlesCircle(
+                entity.pos,
+                entity.radius,
+                entity.radius*1.5,
+                entity.radius/10,
+                entity.radius/5*Math.PI*2,
+                {
+                    red: 255,
+                    green: 100,
+                    blue: 0,
+                    opacity: 0.5,
+                    size: 20,
+                    fadeStart: 1,
+                    fadeEnd: 1.5,
+                }
+            );
+        }
+    },
+    collission(entity, dt, args) {
+        let timeLeft = (entity.properties.explosionDelay - entity.age);
+        
+        if (timeLeft > 0) return
+        
+        args.other.health -= entity.properties.explosionDamage
+
+        if (!args.other.isStatic) {
+            args.other.vel.add(args.relPos.copy().setMag(500));
+        }
+    },
+
+}
+
 export let friction = <Component>{
     init(entity, dt, args) {
         entity.setDefaultProperty("frictionFactor", 0.9);
