@@ -42,12 +42,12 @@ export class ComponentManager {
 type EventHandler<Args extends ({[argName: string]: any})> = (entity: DungineEntity, dt: number, args: Args) => void
 
 export type Component = {
+    collission?: EventHandler<{other: DungineEntity, relPos: Vec2d, centerDist: number, edgeDist: number}>
+    draw?: EventHandler<{canvas: DungineCanvas}>
     import?: (dungine: Dungine) => void
     init?: EventHandler<{}>
+    roomWallCollission?: EventHandler<{}>
     tick?: EventHandler<{}>
-    draw?: EventHandler<{canvas: DungineCanvas}>
-    collission?: EventHandler<{other: DungineEntity, relPos: Vec2d, centerDist: number, edgeDist: number}>
-    roomWallCollission?: EventHandler<{vel: Vec2d}>
 }
 
 export class ComponentSet {
