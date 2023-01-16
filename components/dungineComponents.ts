@@ -40,13 +40,15 @@ export let AiMovement = <Component>{
 
 export let drawCircle = <Component>{
     init(entity, dt, args) {
-        entity.setDefaultProperty("drawCircleColor", "black")
+        entity.setDefaultProperty("drawCircleColor", "black");
+        entity.setDefaultProperty("drawCircleRotation", 0);
+        entity.setDefaultProperty("drawCircleArcSize", Math.PI*2);
     },
     draw(entity, dt, args) {
         let ctx = args.canvas.ctx;
         ctx.fillStyle = entity.properties.drawCircleColor;
         ctx.beginPath();
-        ctx.arc(entity.pos.x, entity.pos.y, entity.radius, 0, Math.PI*2);
+        ctx.arc(entity.pos.x, entity.pos.y, entity.radius, entity.properties.drawCircleRotation, entity.properties.drawCircleRotation + entity.properties.drawCircleArcSize);
         ctx.fill();
     },
 }
