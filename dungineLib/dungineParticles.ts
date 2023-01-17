@@ -11,36 +11,29 @@ export class ParticleManager {
     createParticle(pos: Vec2d, vel: Vec2d, type: ParticleType) {
         this.particles.push(new Particle(this, pos, vel, type));
     }
-    createParticlesCircle(pos: Vec2d, spawnRadius: number, outwardVel: number, randomVel: number, particleCount: number, type: ParticleType) {
-        for (let i = 0; i < particleCount; i++) {
-            let direction = Vec2d.randAngle(spawnRadius*Math.sqrt(Math.random()));
+    spawnParticles(spawn: ParticleSpawn, pos: Vec2d, rotation = Math.random()*Math.PI*2) {
+        for (let i = 0; i < spawn.particleCount; i++) {
+            let direction;
+            switch (spawn.shape) {
+                case "circle":
+                    direction = Vec2d.randAngle(spawn.size/2*Math.sqrt(Math.random()));
+                    break;
+
+                case "square":
+                    direction = Vec2d.randBox(spawn.size).subXY(spawn.size, spawn.size).rotate(rotation);
+                    break;
+
+                case "line":
+                    direction = Vec2d.randBox(spawn.size, 0).subXY(spawn.size/2, 0).rotate(rotation);
+                    break;
+                default:
+                    break;
+            }
             this.particles.push(new Particle(
                 this,
                 pos.copy().add(direction),
-                Vec2d.rand2D(randomVel).add(direction.copy().div(spawnRadius).mult(outwardVel)),
-                type
-            ));
-        }
-    }
-    createParticlesSquare(pos: Vec2d, spawnRadius: number, rotation: number, outwardVel: number, randomVel: number, particleCount: number, type: ParticleType) {
-        for (let i = 0; i < particleCount; i++) {
-            let direction = Vec2d.randBox(spawnRadius*2,spawnRadius*2).subXY(spawnRadius, spawnRadius).rotate(rotation);
-            this.particles.push(new Particle(
-                this,
-                pos.copy().add(direction),
-                Vec2d.rand2D(randomVel).add(direction.copy().div(spawnRadius).mult(outwardVel)),
-                type
-            ));
-        }
-    }
-    createParticlesLine(pos: Vec2d, length: number, rotation: number, outwardVel: number, randomVel: number, particleCount: number, type: ParticleType) {
-        for (let i = 0; i < particleCount; i++) {
-            let direction = Vec2d.randBox(length, 0).subXY(length/2, 0).rotate(rotation);
-            this.particles.push(new Particle(
-                this,
-                pos.copy().add(direction),
-                Vec2d.rand2D(randomVel).add(direction.copy().div(length/2).mult(outwardVel)),
-                type
+                Vec2d.rand2D(spawn.randomVel).add(direction.copy().div(spawn.size).mult(spawn.outwardVel)),
+                spawn.particleTypes[Math.floor(Math.random()*spawn.particleTypes.length)]
             ));
         }
     }
@@ -56,6 +49,15 @@ export class ParticleManager {
             }
         }
     }
+}
+
+export type ParticleSpawn = {
+    shape: "circle" | "square" | "line",
+    size: number,
+    outwardVel: number,
+    randomVel: number,
+    particleCount: number,
+    particleTypes: ParticleType[],
 }
 
 export type ParticleType = {

@@ -68,39 +68,45 @@ export let explosion = <Component>{
         let timeLeft = (entity.properties.explosionDelay - entity.age);
 
         if (timeLeft > 0) {
-            entity.room.particleManager.createParticlesCircle(
-                entity.pos,
-                entity.radius,
-                -entity.radius / timeLeft,
-                0,
-                entity.radius/100*Math.PI*2,
+            entity.room.particleManager.spawnParticles(
                 {
-                    red: 255,
-                    green: 100,
-                    blue: 0,
-                    opacity: 0.5,
-                    size: 10,
-                    fadeStart: timeLeft*0.5,
-                    fadeEnd: timeLeft,
-                }
+                    shape: "circle",
+                    size: entity.radius*2,
+                    outwardVel: -entity.radius / timeLeft,
+                    randomVel: 0,
+                    particleCount: 3,
+                    particleTypes: [{
+                        red: 255,
+                        green: 100,
+                        blue: 0,
+                        opacity: 0.5,
+                        size: entity.radius*Math.PI*2/10,
+                        fadeStart: timeLeft*0.5,
+                        fadeEnd: timeLeft,
+                    }]
+                },
+                entity.pos
             );
         } else {
             entity.health = -Infinity;
-            entity.room.particleManager.createParticlesCircle(
-                entity.pos,
-                entity.radius,
-                entity.radius*1.5,
-                entity.radius/10,
-                entity.radius/5*Math.PI*2,
+            entity.room.particleManager.spawnParticles(
                 {
-                    red: 255,
-                    green: 100,
-                    blue: 0,
-                    opacity: 0.5,
-                    size: 20,
-                    fadeStart: 1,
-                    fadeEnd: 1.5,
-                }
+                    shape: "circle",
+                    size: entity.radius*2,
+                    outwardVel: entity.radius*1.5,
+                    randomVel: entity.radius/10,
+                    particleCount: 20,
+                    particleTypes: [{
+                        red: 255,
+                        green: 100,
+                        blue: 0,
+                        opacity: 0.5,
+                        size: entity.radius/5,
+                        fadeStart: timeLeft*0.5,
+                        fadeEnd: timeLeft,
+                    }]
+                },
+                entity.pos
             );
         }
     },
