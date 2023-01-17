@@ -43,6 +43,7 @@ type EventHandler<Args extends ({[argName: string]: any})> = (entity: DungineEnt
 
 export type Component = {
     collission?: EventHandler<{other: DungineEntity, relPos: Vec2d, centerDist: number, edgeDist: number}>
+    death: EventHandler<{}>
     draw?: EventHandler<{canvas: DungineCanvas}>
     import?: (dungine: Dungine) => void
     init?: EventHandler<{}>
@@ -57,6 +58,7 @@ export class ComponentSet {
         }
     }
     collission: Component["collission"][] = []
+    death: Component["death"][] = []
     draw: Component["draw"][] = []
     import: Component["import"][] = []
     init: Component["init"][] = []
