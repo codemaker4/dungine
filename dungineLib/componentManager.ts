@@ -56,10 +56,10 @@ export class ComponentSet {
             this[componentFuncName].push(component[componentFuncName]);
         }
     }
+    collission: Component["collission"][] = []
+    draw: Component["draw"][] = []
     import: Component["import"][] = []
     init: Component["init"][] = []
-    tick: Component["tick"][] = []
-    draw: Component["draw"][] = []
-    collission: Component["collission"][] = []
     roomWallCollission: Component["roomWallCollission"][] = []
+    tick: Component["tick"][] = []
 }
