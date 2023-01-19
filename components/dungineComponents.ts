@@ -250,7 +250,7 @@ export let projectileWeapon = <Component> {
 
         if (props.projectileWeaponTrigger && entity.properties.projectileWeaponCooldownTimer < 0) {
             props.projectileWeaponCooldownTimer = props.projectileWeaponCooldown;
-            entity.room.summon("projectileWeaponProjectile", entity.pos.copy(), props.projectileWeaponAim.copy().mult(200), {
+            entity.room.summon("projectileWeaponProjectile", entity.pos.copy(), props.projectileWeaponAim.copy().mult(entity.properties.projectileWeaponProjectileSpeed), {
                 damage: entity.properties.projectileWeaponProjectileDamage,
                 radius: entity.properties.projectileWeaponProjectileRadius,
                 owner: entity,
