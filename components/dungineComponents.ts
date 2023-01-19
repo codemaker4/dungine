@@ -80,7 +80,7 @@ export let explosion = <Component>{
                         green: 100,
                         blue: 0,
                         opacity: 0.5,
-                        size: entity.radius*Math.PI*2/10,
+                        size: entity.radius*Math.PI*2/50,
                         fadeStart: timeLeft*0.5,
                         fadeEnd: timeLeft,
                     }]
@@ -92,18 +92,18 @@ export let explosion = <Component>{
             entity.room.particleManager.spawnParticles(
                 {
                     shape: "circle",
-                    size: entity.radius*2,
-                    outwardVel: entity.radius*1.5,
+                    size: entity.radius, // the diameter of the particles spawn will be half the diameter of the explosion
+                    outwardVel: entity.radius*4,
                     randomVel: entity.radius/10,
-                    particleCount: 20,
+                    particleCount: 50,
                     particleTypes: [{
                         red: 255,
                         green: 100,
                         blue: 0,
                         opacity: 0.5,
                         size: entity.radius/5,
-                        fadeStart: timeLeft*0.5,
-                        fadeEnd: timeLeft,
+                        fadeStart: 0.5,
+                        fadeEnd: 1,
                     }]
                 },
                 entity.pos
@@ -214,6 +214,7 @@ export let projectileWeapon = <Component> {
         entity.assertProperty(entity.properties.projectileWeaponProjectileRadius, "number", `Error in projectileWeapon for ${entity.type.name}: entity.properties.projectileWeaponProjectileRadius is not defined or not a number.`);
         entity.setDefaultProperty("projectileWeaponProjectileColor", "black");
         entity.setDefaultProperty("projectileWeaponDamageWhitelist", []);
+        entity.setDefaultProperty("projectileWeaponProjectileSpeed", 200);
     },
     tick(entity, dt, args) {
         const props = entity.properties;
