@@ -19,7 +19,7 @@ export class DungineRoom {
     }
 
     summon(type: string, pos: Vec2d, vel: Vec2d, args: { [argName: string]: any; }) {
-        this.dungine.typeManager.getType(type).createEntity(this, pos, vel, args);
+        this.dungine.typeManager.getType(type).createEntity(this, pos.copy(), vel.copy(), args);
     }
 
     setCamGoal(dungineCamera: DungineCamera) {
@@ -45,6 +45,7 @@ export class DungineRoom {
 
         for (let i = 0; i < this.entities.length; i++) {
             if (this.entities[i].health <= 0) {
+                this.entities[i].death(dt);
                 this.entities.splice(i, 1);
                 i--;
             }

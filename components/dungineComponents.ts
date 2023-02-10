@@ -283,3 +283,13 @@ export let push = <Component> {
         }
     },
 }
+
+export let summonOnDeath = <Component> {
+    init(entity, dt, args) {
+        entity.assertProperty(entity.properties.summonOnDeathEntityName, "string", `Error in summonOnDeath for ${entity.type.name}: entity.properties.summonOnDeathEntityName is not defined.`);
+        entity.setDefaultProperty("summonOnDeathEntityArgs", {})
+    },
+    death(entity, dt, args) {
+        entity.room.summon(entity.properties.summonOnDeathEntityName, entity.pos, entity.vel, entity.properties.summonOnDeathEntityArgs);
+    },
+}

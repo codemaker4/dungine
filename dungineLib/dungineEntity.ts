@@ -79,6 +79,12 @@ export class DungineEntity {
         }
     }
 
+    death(dt) {
+        for (const deathFunc of this.type.componentSet.death) {
+            deathFunc(this, dt, {});
+        }
+    }
+
     private roomWallCollision(dt: number) {
         let collissionHappened = false;
         let prefVel = this.vel.copy();
